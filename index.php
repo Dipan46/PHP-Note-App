@@ -205,6 +205,37 @@
         let table = new DataTable('#myTable');
     </script>
     <script>
+        $('#myTable').on('click', '.edit', function (e) {
+
+            // Find the parent <tr> of the clicked button.
+            const $tr = $(this).closest('tr');
+
+            // Extract Title and Desc from the first table data cell (td at index 0).
+            const title = $tr.find('td').eq(0).text().trim();
+            const description = $tr.find('td').eq(1).text().trim();
+
+            // Populate the input field for editing
+            $('#titleEdit').val(title);
+            $('#descriptionEdit').val(description);
+
+            // Get the unique ID of the clicked button (which is the record ID/SL)
+            $('#slEdit').val($(this).attr('id'));
+
+            // Get the DOM element for the Bootstrap modal.
+            const modalEl = document.getElementById('editModal');
+            const modal = new bootstrap.Modal(modalEl);
+            modal.show();
+        });
+
+        $('#myTable').on('click', '.delete', function (e) {
+            const id = $(this).attr('id').substr(1);
+
+            if (confirm('Are you sure! You want to delete this note.')) {
+                window.location = '/exp/dir/note_app/index.php?delete=' + id;
+            }
+        });
+
+        /*
         edits = $('.edit');
         Array.from(edits).forEach(element => {
             element.addEventListener("click", (e) => {
@@ -233,6 +264,7 @@
                 }
             })
         });
+        */
     </script>
 </body>
 
