@@ -1,52 +1,50 @@
 <!-- Connecting to DB -->
 <?php
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $database = "phpnoteapp";
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $database = "phpnoteapp";
 
-        $conn = mysqli_connect($servername, $username, $password, $database);
+    $conn = mysqli_connect($servername, $username, $password, $database);
         
-        if(!$conn)
-            die("❌Connection was not successful: " . mysqli_error($conn));
+    if(!$conn)
+        die("❌Connection was not successful: " . mysqli_error($conn));
         
-        if (isset($_GET["delete"])){
-            $sl = $_GET["delete"];
-            $sql = "DELETE FROM notes WHERE `notes`.`id` = '$sl';";
+    if (isset($_GET["delete"])){
+        $sl = $_GET["delete"];
+        $sql = "DELETE FROM notes WHERE `notes`.`id` = '$sl';";
+        $result = mysqli_query($conn, $sql);
+    }
+    if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+        if (isset($_POST["slEdit"])){
+
+            $sl = $_POST["slEdit"];
+            $title = mysqli_real_escape_string($conn, $_POST["titleEdit"]);
+            $description = mysqli_real_escape_string($conn, $_POST["descriptionEdit"]);
+
+            $sql = "UPDATE `notes` SET `title` = '$title', `description` = '$description' WHERE `notes`.`id` = '$sl';";
             $result = mysqli_query($conn, $sql);
-        }
-        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-            if (isset($_POST["slEdit"])){
-
-                $sl = $_POST["slEdit"];
-                $title = mysqli_real_escape_string($conn, $_POST["titleEdit"]);
-                $description = mysqli_real_escape_string($conn, $_POST["descriptionEdit"]);
-
-                $sql = "UPDATE `notes` SET `title` = '$title', `description` = '$description' WHERE `notes`.`id` = '$sl';";
-                $result = mysqli_query($conn, $sql);
-
-                if ($result) {
+            if ($result) {
                     header("Location: /exp/dir/note_app/index.php");
-                    exit();
-                }
+                exit();
+            }
 
-            } else {
+        } else {
 
-                $title = mysqli_real_escape_string($conn, $_POST["title"]);
-                $description = mysqli_real_escape_string($conn, $_POST["description"]);
+            $title = mysqli_real_escape_string($conn, $_POST["title"]);
+            $description = mysqli_real_escape_string($conn, $_POST["description"]);
 
-                $sql = "INSERT INTO `notes` (`title`, `description`) VALUES ('$title', '$description');";
-                $result = mysqli_query($conn, $sql);
+            $sql = "INSERT INTO `notes` (`title`, `description`) VALUES ('$title', '$description');";
+            $result = mysqli_query($conn, $sql);
 
-                if ($result) {
-                    header("Location: /exp/dir/note_app/index.php");
-                    exit();
-                }
+            if ($result) {
+                header("Location: /exp/dir/note_app/index.php");
+                exit();
             }
         }
-
-
+    }
 ?>
 
 <!doctype html>
