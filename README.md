@@ -85,7 +85,8 @@ http://localhost/php-note-app
 
 ## 📸 Screenshots
 
-(Add your screenshots here)
+![PHP Note App Preview](./prev/1.png)
+![PHP Note App Preview](./prev/2.png)
 
 * Add Note Form
 * Notes Table
@@ -144,3 +145,4 @@ If you'd like, I can also:
 ✅ Create a **project logo**
 ✅ Add GitHub badges
 Just tell me!
+
