@@ -16,22 +16,25 @@
             $result = mysqli_query($conn, $sql);
         }
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-            if (isset($_POST["slEdit"])){
-                // Update exsisting record
-                $sl = $_POST["slEdit"];
-                $title = $_POST["titleEdit"];
-                $description = $_POST["descriptionEdit"];
-                $sql = "UPDATE `notes` SET `title` = '$title', `description` = '$description' WHERE `notes`.`id` = '$sl';";
-                $result = mysqli_query($conn, $sql);
-            } else {
-                // Insert New Record
-                $title = $_POST["title"];
-                $description = $_POST["description"];
-                $sql = "INSERT INTO `notes` (`title`, `description`) VALUES ('$title', '$description');";
-                $result = mysqli_query($conn, $sql);
+        if (isset($_POST["slEdit"])){
 
-            }
+            $sl = $_POST["slEdit"];
+            $title = mysqli_real_escape_string($conn, $_POST["titleEdit"]);
+            $description = mysqli_real_escape_string($conn, $_POST["descriptionEdit"]);
+
+            $sql = "UPDATE `notes` SET `title` = '$title', `description` = '$description' WHERE `notes`.`id` = '$sl';";
+            $result = mysqli_query($conn, $sql);
+
+        } else {
+
+            $title = mysqli_real_escape_string($conn, $_POST["title"]);
+            $description = mysqli_real_escape_string($conn, $_POST["description"]);
+
+            $sql = "INSERT INTO `notes` (`title`, `description`) VALUES ('$title', '$description');";
+            $result = mysqli_query($conn, $sql);
         }
+    }
+
 ?>
 
 <!doctype html>
