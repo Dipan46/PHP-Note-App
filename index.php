@@ -16,24 +16,36 @@
             $result = mysqli_query($conn, $sql);
         }
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-        if (isset($_POST["slEdit"])){
 
-            $sl = $_POST["slEdit"];
-            $title = mysqli_real_escape_string($conn, $_POST["titleEdit"]);
-            $description = mysqli_real_escape_string($conn, $_POST["descriptionEdit"]);
+            if (isset($_POST["slEdit"])){
 
-            $sql = "UPDATE `notes` SET `title` = '$title', `description` = '$description' WHERE `notes`.`id` = '$sl';";
-            $result = mysqli_query($conn, $sql);
+                $sl = $_POST["slEdit"];
+                $title = mysqli_real_escape_string($conn, $_POST["titleEdit"]);
+                $description = mysqli_real_escape_string($conn, $_POST["descriptionEdit"]);
 
-        } else {
+                $sql = "UPDATE `notes` SET `title` = '$title', `description` = '$description' WHERE `notes`.`id` = '$sl';";
+                $result = mysqli_query($conn, $sql);
 
-            $title = mysqli_real_escape_string($conn, $_POST["title"]);
-            $description = mysqli_real_escape_string($conn, $_POST["description"]);
+                if ($result) {
+                    header("Location: /exp/dir/note_app/index.php");
+                    exit();
+                }
 
-            $sql = "INSERT INTO `notes` (`title`, `description`) VALUES ('$title', '$description');";
-            $result = mysqli_query($conn, $sql);
+            } else {
+
+                $title = mysqli_real_escape_string($conn, $_POST["title"]);
+                $description = mysqli_real_escape_string($conn, $_POST["description"]);
+
+                $sql = "INSERT INTO `notes` (`title`, `description`) VALUES ('$title', '$description');";
+                $result = mysqli_query($conn, $sql);
+
+                if ($result) {
+                    header("Location: /exp/dir/note_app/index.php");
+                    exit();
+                }
+            }
         }
-    }
+
 
 ?>
 
